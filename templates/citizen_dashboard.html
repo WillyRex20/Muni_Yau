@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Panel - Municipalidad de Yau</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #1e3a5f;
+            --secondary-color: #2c5282;
+            --accent-color: #f6ad55;
+        }
+        
+        body {
+            background-color: #f7fafc;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        }
+        
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+        
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        
+        .card-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: 10px 10px 0 0 !important;
+            font-weight: 600;
+        }
+        
+        .priority-badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        .priority-urgente {
+            background-color: #f56565;
+            color: white;
+        }
+        
+        .priority-alta {
+            background-color: #ed8936;
+            color: white;
+        }
+        
+        .priority-media {
+            background-color: #ecc94b;
+            color: #333;
+        }
+        
+        .priority-baja {
+            background-color: #48bb78;
+            color: white;
+        }
+        
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        .status-pendiente {
+            background-color: #bee3f8;
+            color: #2c5282;
+        }
+        
+        .status-en_proceso {
+            background-color: #feebc8;
+            color: #9c4221;
+        }
+        
+        .status-completado {
+            background-color: #c6f6d5;
+            color: #276749;
+        }
+        
+        .status-rechazado {
+            background-color: #fed7d7;
+            color: #9b2c2c;
+        }
+        
+        .stat-card {
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .sidebar {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            height: 100%;
+        }
+        
+        .nav-link {
+            color: var(--primary-color);
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin-bottom: 5px;
+            cursor: pointer;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .ml-indicator {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            background-color: var(--accent-color);
+            color: #333;
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .user-profile img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-landmark me-2"></i>Municipalidad de Yau
+                <span class="badge bg-success ms-2">Ciudadano</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-user-circle me-1"></i>
+                            <span id="user-name">Ciudadano</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="/logout"><i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="user-profile">
+                    <img id="user-avatar" src="https://via.placeholder.com/60" alt="Avatar">
+                    <div>
+                        <h6 class="mb-0" id="profile-name">Nombre Ciudadano</h6>
+                        <small class="text-muted" id="profile-email">email@example.com</small>
+                    </div>
+                </div>
+                
+                <div class="sidebar">
+                    <h5 class="mb-3">Mi Panel</h5>
+                    <nav class="nav flex-column">
+                        <a class="nav-link active" href="#" onclick="showSection('mis-tramites')">
+                            <i class="fas fa-file-alt me-2"></i>Mis Trámites
+                        </a>
+                        <a class="nav-link" href="#" onclick="showSection('nuevo-tramite')">
+                            <i class="fas fa-plus-circle me-2"></i>Nuevo Trámite
+                        </a>
+                        <a class="nav-link" href="#" onclick="showSection('mi-perfil')">
+                            <i class="fas fa-user me-2"></i>Mi Perfil
+                        </a>
+                    </nav>
+                </div>
+            </div>
+            
+            <div class="col-md-9">
+                <!-- Mis Trámites Section -->
+                <div id="mis-tramites-section">
+                    <h2 class="mb-4">Mis Trámites</h2>
+                    <div class="row" id="my-stats-container">
+                        <div class="col-md-4">
+                            <div class="stat-card">
+                                <div class="stat-number" id="my-total-tramites">0</div>
+                                <div class="text-muted">Total</div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="stat-card">
+                                <div class="stat-number" id="my-pendientes">0</div>
+                                <div class="text-muted">Pendientes</div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="stat-card">
+                                <div class="stat-number" id="my-completados">0</div>
+                                <div class="text-muted">Completados</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card mt-4">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Tipo</th>
+                                            <th>Estado</th>
+                                            <th>Prioridad ML</th>
+                                            <th>Fecha</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="my-tramites-tbody">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Nuevo Trámite Section -->
+                <div id="nuevo-tramite-section" class="hidden">
+                    <h2 class="mb-4">Solicitar Nuevo Trámite</h2>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-user-edit me-2"></i>Completar Información Personal
+                        </div>
+                        <div class="card-body">
+                            <form id="perfil-form">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">DNI</label>
+                                            <input type="text" class="form-control" id="dni" maxlength="8">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Teléfono</label>
+                                            <input type="text" class="form-control" id="telefono">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Nombres</label>
+                                            <input type="text" class="form-control" id="nombres">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Apellidos</label>
+                                            <input type="text" class="form-control" id="apellidos">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Dirección</label>
+                                    <input type="text" class="form-control" id="direccion">
+                                </div>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save me-2"></i>Guardar Información
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <div class="card mt-4">
+                        <div class="card-header">
+                            <i class="fas fa-file-signature me-2"></i>Crear Trámite
+                        </div>
+                        <div class="card-body">
+                            <form id="tramite-form">
+                                <div class="mb-3">
+                                    <label class="form-label">Tipo de Trámite</label>
+                                    <select class="form-select" id="tipo-tramite" required>
+                                        <option value="">Seleccione...</option>
+                                        <option value="Solicitud de Licencia">Solicitud de Licencia</option>
+                                        <option value="Certificado de Residencia">Certificado de Residencia</option>
+                                        <option value="Reclamo Ciudadano">Reclamo Ciudadano</option>
+                                        <option value="Solicitud de Permiso">Solicitud de Permiso</option>
+                                        <option value="Postulación de Cargo">Postulación de Cargo</option>
+                                        <option value="Otro">Otro</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Descripción</label>
+                                    <textarea class="form-control" id="descripcion" rows="3"></textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Documentos Adjuntos</label>
+                                    <div id="documentos-container">
+                                        <div class="documento-item mb-2">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <input type="text" class="form-control" placeholder="Tipo de documento" name="tipo_documento">
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <input type="text" class="form-control" placeholder="Nombre del archivo" name="nombre_archivo">
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <textarea class="form-control" placeholder="Contenido del documento" rows="1" name="contenido"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn btn-sm btn-outline-primary mt-2" onclick="agregarDocumento()">
+                                        <i class="fas fa-plus me-1"></i>Agregar Documento
+                                    </button>
+                                </div>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-paper-plane me-2"></i>Enviar Trámite
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Mi Perfil Section -->
+                <div id="mi-perfil-section" class="hidden">
+                    <h2 class="mb-4">Mi Perfil</h2>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4 text-center">
+                                    <img id="profile-avatar-large" src="https://via.placeholder.com/150" alt="Avatar" class="rounded-circle mb-3" style="width: 150px; height: 150px; object-fit: cover;">
+                                </div>
+                                <div class="col-md-8">
+                                    <h4 id="profile-name-large">Nombre Ciudadano</h4>
+                                    <p class="text-muted" id="profile-email-large">email@example.com</p>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <strong>DNI:</strong> <span id="profile-dni">-</span>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <strong>Teléfono:</strong> <span id="profile-telefono">-</span>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col-md-12">
+                                            <strong>Dirección:</strong> <span id="profile-direccion">-</span>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col-md-6">
+                                            <strong>Fecha Registro:</strong> <span id="profile-fecha">-</span>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <strong>Total Trámites:</strong> <span id="profile-tramites">0</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Detalle Trámite -->
+    <div class="modal fade" id="tramiteModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Detalle del Trámite</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="tramite-modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1100">
+        <div id="successToast" class="toast" role="alert">
+            <div class="toast-header bg-success text-white">
+                <i class="fas fa-check-circle me-2"></i>
+                <strong class="me-auto">Éxito</strong>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"></button>
+            </div>
+            <div class="toast-body" id="successToastBody"></div>
+        </div>
+        <div id="errorToast" class="toast" role="alert">
+            <div class="toast-header bg-danger text-white">
+                <i class="fas fa-exclamation-circle me-2"></i>
+                <strong class="me-auto">Error</strong>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"></button>
+            </div>
+            <div class="toast-body" id="errorToastBody"></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/js/citizen.js"></script>
+</body>
+</html>

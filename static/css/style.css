@@ -1,0 +1,171 @@
+:root {
+    --primary-color: #1e3a5f;
+    --secondary-color: #2c5282;
+    --accent-color: #f6ad55;
+    --success-color: #48bb78;
+    --warning-color: #ecc94b;
+    --danger-color: #f56565;
+}
+
+body {
+    background-color: #f7fafc;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.navbar {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+}
+
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.card-header {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    border-radius: 10px 10px 0 0 !important;
+    font-weight: 600;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    border: none;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+}
+
+.priority-badge {
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.priority-urgente {
+    background-color: var(--danger-color);
+    color: white;
+}
+
+.priority-alta {
+    background-color: #ed8936;
+    color: white;
+}
+
+.priority-media {
+    background-color: var(--warning-color);
+    color: #333;
+}
+
+.priority-baja {
+    background-color: var(--success-color);
+    color: white;
+}
+
+.status-badge {
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.status-pendiente {
+    background-color: #bee3f8;
+    color: #2c5282;
+}
+
+.status-en_proceso {
+    background-color: #feebc8;
+    color: #9c4221;
+}
+
+.status-completado {
+    background-color: #c6f6d5;
+    color: #276749;
+}
+
+.status-rechazado {
+    background-color: #fed7d7;
+    color: #9b2c2c;
+}
+
+.stat-card {
+    text-align: center;
+    padding: 20px;
+    border-radius: 10px;
+    background: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.stat-label {
+    color: #718096;
+    font-size: 0.9rem;
+}
+
+.ml-indicator {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    background-color: var(--accent-color);
+    color: #333;
+}
+
+.loading {
+    display: none;
+    text-align: center;
+    padding: 20px;
+}
+
+.loading.show {
+    display: block;
+}
+
+.alert-item {
+    padding: 10px;
+    border-left: 4px solid var(--primary-color);
+    background-color: #ebf8ff;
+    margin-bottom: 10px;
+    border-radius: 4px;
+}
+
+.sidebar {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    height: 100%;
+}
+
+.nav-link {
+    color: var(--primary-color);
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+
+.nav-link:hover, .nav-link.active {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.hidden {
+    display: none;
+}
