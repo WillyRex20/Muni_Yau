@@ -163,3 +163,27 @@ class Alerta(db.Model):
             'estado_envio': self.estado_envio,
             'canal': self.canal
         }
+
+class AuditLog(db.Model):
+    __tablename__ = 'audit_logs'
+
+    id = db.Column(db.Integer, primary_key=True)
+    usuario_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'), nullable=True)
+    accion = db.Column(db.String(100), nullable=False)
+    tabla = db.Column(db.String(100), nullable=False)
+    registro_id = db.Column(db.Integer, nullable=True)
+    detalle = db.Column(db.Text)
+    fecha = db.Column(db.DateTime, default=datetime.utcnow)
+
+    usuario = db.relationship('Usuario', backref='audit_logs')
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'usuario_id': self.usuario_id,
+            'accion': self.accion,
+            'tabla': self.tabla,
+            'registro_id': self.registro_id,
+            'detalle': self.detalle,
+            'fecha': self.fecha.isoformat()
+        }

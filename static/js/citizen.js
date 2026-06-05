@@ -15,7 +15,9 @@ function showErrorToast(message) {
 }
 
 // Show/Hide sections
-function showSection(sectionName) {
+function showSection(event, sectionName) {
+    event.preventDefault();
+
     document.querySelectorAll('[id$="-section"]').forEach(section => {
         section.classList.add('hidden');
     });

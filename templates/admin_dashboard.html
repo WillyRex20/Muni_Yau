@@ -153,12 +153,12 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto align-items-center">
                     <li class="nav-item me-3">
-                        <a class="nav-link" href="#" onclick="showSection('dashboard')">
+                        <a class="nav-link" href="#" onclick="showSection(event, 'dashboard')">
                             <i class="fas fa-chart-line me-1"></i>Dashboard
                         </a>
                     </li>
                     <li class="nav-item me-3 position-relative">
-                        <a class="nav-link" href="#" onclick="showSection('notificaciones')">
+                        <a class="nav-link" href="#" onclick="showSection(event, 'notificaciones')">
                             <i class="fas fa-bell me-1"></i>Notificaciones
                             <span class="notification-badge" id="notification-count">0</span>
                         </a>
@@ -183,19 +183,19 @@
                 <div class="sidebar">
                     <h5 class="mb-3">Navegación</h5>
                     <nav class="nav flex-column">
-                        <a class="nav-link active" href="#" onclick="showSection('dashboard')">
+                        <a class="nav-link active" href="#" onclick="showSection(event, 'dashboard')">
                             <i class="fas fa-chart-line me-2"></i>Dashboard
                         </a>
-                        <a class="nav-link" href="#" onclick="showSection('todos-tramites')">
+                        <a class="nav-link" href="#" onclick="showSection(event, 'todos-tramites')">
                             <i class="fas fa-list me-2"></i>Todos los Trámites
                         </a>
-                        <a class="nav-link" href="#" onclick="showSection('prioritarios')">
+                        <a class="nav-link" href="#" onclick="showSection(event, 'prioritarios')">
                             <i class="fas fa-exclamation-triangle me-2"></i>Trámites Prioritarios
                         </a>
-                        <a class="nav-link" href="#" onclick="showSection('ciudadanos')">
+                        <a class="nav-link" href="#" onclick="showSection(event, 'ciudadanos')">
                             <i class="fas fa-users me-2"></i>Ciudadanos
                         </a>
-                        <a class="nav-link" href="#" onclick="showSection('notificaciones')">
+                        <a class="nav-link" href="#" onclick="showSection(event, 'notificaciones')">
                             <i class="fas fa-bell me-2"></i>Notificaciones
                         </a>
                     </nav>
@@ -280,7 +280,17 @@
                 
                 <!-- Todos los Trámites Section -->
                 <div id="todos-tramites-section" class="hidden">
-                    <h2 class="mb-4">Todos los Trámites</h2>
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h2>Todos los Trámites</h2>
+                        <div>
+                            <a class="btn btn-outline-secondary btn-sm me-2" href="/api/export/tramites?format=xlsx">
+                                <i class="fas fa-file-excel me-1"></i>Excel
+                            </a>
+                            <a class="btn btn-outline-secondary btn-sm" href="/api/export/tramites?format=pdf">
+                                <i class="fas fa-file-pdf me-1"></i>PDF
+                            </a>
+                        </div>
+                    </div>
                     <div class="card">
                         <div class="card-body">
                             <div class="table-responsive">
@@ -335,7 +345,65 @@
                 
                 <!-- Ciudadanos Section -->
                 <div id="ciudadanos-section" class="hidden">
-                    <h2 class="mb-4">Ciudadanos Registrados</h2>
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h2>Ciudadanos Registrados</h2>
+                        <div>
+                            <a class="btn btn-outline-secondary btn-sm me-2" href="/api/export/ciudadanos?format=xlsx">
+                                <i class="fas fa-file-excel me-1"></i>Excel
+                            </a>
+                            <a class="btn btn-outline-secondary btn-sm" href="/api/export/ciudadanos?format=pdf">
+                                <i class="fas fa-file-pdf me-1"></i>PDF
+                            </a>
+                        </div>
+                    </div>
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <i class="fas fa-user-plus me-2"></i>Registrar Nuevo Ciudadano
+                        </div>
+                        <div class="card-body">
+                            <form id="register-ciudadano-form">
+                                <div class="row g-3">
+                                    <div class="col-md-4">
+                                        <label class="form-label">DNI</label>
+                                        <input type="text" class="form-control" id="register-dni" placeholder="DNI" required>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label">Nombres</label>
+                                        <input type="text" class="form-control" id="register-nombres" placeholder="Nombres" required>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label">Apellidos</label>
+                                        <input type="text" class="form-control" id="register-apellidos" placeholder="Apellidos" required>
+                                    </div>
+                                </div>
+                                <div class="row g-3 mt-3">
+                                    <div class="col-md-4">
+                                        <label class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="register-email" placeholder="Email" required>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label">Teléfono</label>
+                                        <input type="text" class="form-control" id="register-telefono" placeholder="Teléfono">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label">Contraseña</label>
+                                        <input type="password" class="form-control" id="register-password" placeholder="Contraseña" required>
+                                    </div>
+                                </div>
+                                <div class="row g-3 mt-3">
+                                    <div class="col-md-12">
+                                        <label class="form-label">Dirección</label>
+                                        <textarea class="form-control" id="register-direccion" rows="2" placeholder="Dirección"></textarea>
+                                    </div>
+                                </div>
+                                <div class="mt-3">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-save me-2"></i>Registrar Ciudadano
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                     <div class="card">
                         <div class="card-body">
                             <div class="table-responsive">

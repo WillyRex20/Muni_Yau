@@ -19,6 +19,12 @@ class NotificationSystem:
     
     def enviar_correo(self, to_email, subject, body):
         """Envía un correo electrónico"""
+        if not self.smtp_user or not self.smtp_password:
+            logger.warning('Configuración de correo incompleta. No se enviará el email.')
+            logger.info(f'Email simulado para {to_email}: {subject}')
+            logger.info(body)
+            return False
+
         try:
             msg = MIMEMultipart()
             msg['From'] = self.smtp_user

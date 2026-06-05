@@ -14,7 +14,9 @@ function showErrorToast(message) {
 }
 
 // Show/Hide sections
-function showSection(sectionName) {
+function showSection(event, sectionName) {
+    event.preventDefault();
+
     document.querySelectorAll('[id$="-section"]').forEach(section => {
         section.classList.add('hidden');
     });
@@ -191,6 +193,44 @@ async function cargarCiudadanos() {
     }
 }
 
+async function registrarCiudadano(event) {
+    event.preventDefault();
+
+    const data = {
+        dni: document.getElementById('register-dni').value,
+        nombres: document.getElementById('register-nombres').value,
+        apellidos: document.getElementById('register-apellidos').value,
+        email: document.getElementById('register-email').value,
+        telefono: document.getElementById('register-telefono').value,
+        direccion: document.getElementById('register-direccion').value,
+        password: document.getElementById('register-password').value
+    };
+
+    try {
+        const response = await fetch(`${API_BASE}/ciudadanos`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+            showSuccessToast('Ciudadano registrado correctamente');
+            document.getElementById('register-ciudadano-form').reset();
+            cargarCiudadanos();
+            cargarEstadisticas();
+        } else {
+            showErrorToast(result.error || 'Error al registrar ciudadano');
+        }
+    } catch (error) {
+        console.error('Error al registrar ciudadano:', error);
+        showErrorToast('Error al registrar ciudadano');
+    }
+}
+
 // Load notifications
 async function cargarNotificaciones() {
     try {
@@ -353,6 +393,11 @@ document.addEventListener('DOMContentLoaded', () => {
     cargarEstadisticas();
     cargarTramitesRecientes();
     
+    const registerForm = document.getElementById('register-ciudadano-form');
+    if (registerForm) {
+        registerForm.addEventListener('submit', registrarCiudadano);
+    }
+
     // Auto-refresh notifications every 30 seconds
     setInterval(() => {
         cargarEstadisticas();

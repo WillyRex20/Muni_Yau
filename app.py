@@ -1,3 +1,4 @@
+import os
 from flask import Flask, request, jsonify, render_template, send_from_directory, session, redirect, url_for
 from flask_cors import CORS
 from flask_login import login_required, current_user, login_user, logout_user
@@ -70,18 +71,25 @@ def citizen_dashboard():
 def static_files(filename):
     return send_from_directory('static', filename)
 
+
+def setup_database():
+    os.makedirs(app.instance_path, exist_ok=True)
+    db.create_all()
+
+    admin = Usuario.query.filter_by(email='admin@muniyau.gob.pe').first()
+    if not admin:
+        admin = Usuario(
+            email='admin@muniyau.gob.pe',
+            nombre='Administrador Municipalidad',
+            rol='administrador'
+        )
+        admin.set_password('123456789')
+        db.session.add(admin)
+        db.session.commit()
+        app.logger.info('Usuario administrador creado: admin@muniyau.gob.pe')
+
+with app.app_context():
+    setup_database()
+
 if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()
-        # Crear usuario administrador por defecto si no existe
-        admin = Usuario.query.filter_by(email='admin@muniyau.gob.pe').first()
-        if not admin:
-            admin = Usuario(
-                email='admin@muniyau.gob.pe',
-                nombre='Administrador Municipalidad',
-                rol='administrador'
-            )
-            admin.set_password('123456789')
-            db.session.add(admin)
-            db.session.commit()
     app.run(debug=True, host='0.0.0.0', port=5000)
